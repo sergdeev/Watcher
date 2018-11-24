@@ -12,20 +12,23 @@ export default class MovieList extends Component {
   }
 
   componentDidMount() {
-    const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU`;
-    fetch(link)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        this.setState({
-          movies: data.results
+      const { filters: { sort_by } } = this.props;
+      console.log(sort_by);
+      const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=${sort_by}`;
+      fetch(link)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            this.setState({
+                movies: data.results
+            });
         });
-      });
   }
 
   render() {
     const { movies } = this.state;
+    console.log('movies', movies);
     return (
       <div className="row">
         {movies.map(movie => {
