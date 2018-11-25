@@ -5,11 +5,12 @@ import MoviesList from "./Movies/MoviesList";
 export default class App extends React.Component {
     constructor(){
         super();
-        this.onChangeFilters = this.onChangeFilters.bind(this);
+
         this.state = {
             filters: {
                 sort_by: 'vote_average.desc'
-            }
+            },
+            page: 1
         }
     }
 
@@ -22,11 +23,17 @@ export default class App extends React.Component {
         this.setState(prevState => ({
             filters: newFilters
         }));
-        //console.log(this.state.filters);
+        // console.log(this.state.filters);
+    }
+
+    onChangePage = page =>{
+        this.setState({
+            page
+        })
     }
 
     render() {
-        const { filters } = this.state;
+        const { filters, page } = this.state;
         return (
           <div className="container">
             <div className="row mt-4">
@@ -34,12 +41,20 @@ export default class App extends React.Component {
                 <div className="card" style={{ width: "100%" }}>
                   <div className="card-body">
                     <h3>Фильтры:</h3>
-                    <Filters filters = {filters} onChangeFilters = {this.onChangeFilters}/>
+                    <Filters
+                        filters = {filters}
+                        onChangeFilters = {this.onChangeFilters}
+                        page = {page}
+                        onChangePage = {this.onChangePage}
+                        />
                   </div>
                 </div>
               </div>
               <div className="col-8">
-                <MoviesList filters = {filters}/>
+                <MoviesList
+                    filters = {filters}
+                    page = {page}
+                    onChangePage = {this.onChangePage}/>
               </div>
             </div>
           </div>
