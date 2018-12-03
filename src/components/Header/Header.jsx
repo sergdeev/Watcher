@@ -4,6 +4,7 @@ import Login from "./Login/Login"
 
 class Header extends Component {
     render(){
+        const { updateUser } = this.props;
         return(
             <nav className="navbar navbar-dark bg-dark">
                 <div className="container">
@@ -12,7 +13,7 @@ class Header extends Component {
                             <a className="nav-link">Home</a>
                         </li>
                     </ul>
-                    <Login/>
+                    <Login updateUser={updateUser}/>
                 </div>
             </nav>
         )

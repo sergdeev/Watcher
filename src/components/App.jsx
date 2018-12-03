@@ -14,7 +14,8 @@ export default class App extends React.Component {
                 with_genres: []
             },
             page: 1,
-            total_pages: ""
+            total_pages: "",
+            user: null
         }
     };
 
@@ -54,11 +55,18 @@ export default class App extends React.Component {
     };
 
 
+    updateUser = user => {
+        this.setState({
+            user
+        })
+    }
+
+
     render() {
         const { filters, page, total_pages } = this.state;
         return (
             <div>
-                <Header/>
+                <Header updateUser={this.updateUser}/>
                 <div className="container">
                     <div className="row mt-4">
                       <div className="col-4">
