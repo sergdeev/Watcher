@@ -194,20 +194,22 @@ class Login extends Component {
         //     })
     // };
     render(){
-        const { updateUser } = this.props;
+        const { updateUser, updateSessionId } = this.props;
         return(
-            <div className="container">
-                <button
-                    className = "btn btn-outline-light"
-                    type="button"
-                    onClick={this.toggleModal}>
-                    Login
-                </button>
-                <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
-                    <ModalBody>
-                        <LoginForm updateUser={updateUser}/>
-                    </ModalBody>
-                </Modal>
+            <div>
+                <div className="container">
+                    <button
+                        className = "btn btn-outline-light"
+                        type="button"
+                        onClick={this.toggleModal}>
+                        Login
+                    </button>
+                    <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
+                        <ModalBody>
+                            <LoginForm updateUser={updateUser} updateSessionId={updateSessionId}/>
+                        </ModalBody>
+                    </Modal>
+                </div>
             </div>
         )
     }

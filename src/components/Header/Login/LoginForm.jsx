@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { API_URL, API_KEY_3 } from "../../../api/api";
+import { API_URL, API_KEY_3, fetchApi } from "../../../api/api";
 
 
 
@@ -9,6 +9,7 @@ class LoginForm extends Component {
         this.state = {
             username: "",
             password: "",
+            repeatPassword: "",
             errors: {},
             submitting: false
         }
@@ -48,8 +49,11 @@ class LoginForm extends Component {
         if(this.state.username === "") {
             errors.username = "Not empty";
         };
-        if(this.state.password === "") {
-            errors.password = "Not empty";
+        if(this.state.password.length < 5){
+            errors.password = "Password must be at least 5 character";
+        };
+        if(this.state.repeatPassword !== this.state.password){
+            errors.repeatPassword = "Password must be the same";
         }
         return errors;
     };
@@ -63,27 +67,6 @@ class LoginForm extends Component {
         this.setState({
             submitting: true
         });
-
-        const fetchApi = (url, options = {}) => {
-            return new Promise((resolve, reject) => {
-                fetch(url, options)
-                    .then(response => {
-                        if(response.status < 400){
-                            return response.json();
-                        } else{
-                            throw response;
-                        }
-                    })
-                    .then(data => {
-                        resolve(data);
-                        }).catch(response => {
-                        response.json().then(error => {
-                            reject(error);
-                        })
-                    })
-
-            })
-        };
 
         fetchApi(linkRequestToken)
         .then(data => {
@@ -115,14 +98,17 @@ class LoginForm extends Component {
                         })
             })
             .then(data => {
+                this.props.updateSessionId(data.session_id);
                 return fetchApi(`${API_URL}/account?api_key=${API_KEY_3}&session_id=${data.session_id}`)
                 //console.log("session", data.session_id);
             })
             .then(user => {
                 console.log("user", user);
-                this.props.updateUser(user);
                 this.setState({
                     submitting: false
+                },
+                () => {
+                    this.props.updateUser(user);
                 });
             })
             .catch(error =>{
@@ -155,7 +141,7 @@ class LoginForm extends Component {
 
 
     render() {
-        const { username, password, errors, submitting } = this.state;
+        const { username, password, repeatPassword, errors, submitting } = this.state;
         return (
             <div className="form-login-container">
                 <form className="form-login">
@@ -191,6 +177,21 @@ class LoginForm extends Component {
                             />
                         {errors.password && (
                         <div className="invalid-feedback">{errors.password}</div>
+                        )}
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="repeatPassword">Повторите пароль</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id="repeatPassword"
+                            placeholder="Повторите пароль"
+                            name="repeatPassword"
+                            value={repeatPassword}
+                            onChange={this.onChange}
+                            />
+                        {errors.repeatPassword && (
+                        <div className="invalid-feedback">{errors.repeatPassword}</div>
                         )}
                     </div>
                     <button

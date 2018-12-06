@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import Login from "./Login/Login"
+import Login from "./Login/Login";
+import User from "./User";
 
 
 class Header extends Component {
     render(){
-        const { updateUser } = this.props;
+        const { updateUser, user, updateSessionId } = this.props;
         return(
             <nav className="navbar navbar-dark bg-dark">
                 <div className="container">
@@ -13,7 +14,10 @@ class Header extends Component {
                             <a className="nav-link">Home</a>
                         </li>
                     </ul>
-                    <Login updateUser={updateUser}/>
+                    {user?
+                        <User user={user}/>:
+                        <Login updateUser={updateUser} updateSessionId={updateSessionId}/>
+                    }
                 </div>
             </nav>
         )
