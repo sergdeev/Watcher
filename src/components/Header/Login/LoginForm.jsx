@@ -152,7 +152,7 @@ class LoginForm extends Component {
                         <label htmlFor="username">Пользователь</label>
                         <input
                             type="text"
-                            className="form-control"
+                            className={errors.username? "form-control invalid" : "form-control"}
                             id="username"
                             placeholder="Пользователь"
                             name="username"
@@ -168,7 +168,7 @@ class LoginForm extends Component {
                         <label htmlFor="password">Пароль</label>
                         <input
                             type="password"
-                            className="form-control"
+                            className={errors.password? "form-control invalid" : "form-control"}
                             id="password"
                             placeholder="Пароль"
                             name="password"
@@ -183,7 +183,7 @@ class LoginForm extends Component {
                         <label htmlFor="repeatPassword">Повторите пароль</label>
                         <input
                             type="password"
-                            className="form-control"
+                            className={errors.repeatPassword? "form-control invalid" : "form-control"}
                             id="repeatPassword"
                             placeholder="Повторите пароль"
                             name="repeatPassword"
