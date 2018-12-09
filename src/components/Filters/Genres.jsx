@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { API_URL, API_KEY_3 } from "../../api/api";
 
-export default class MovieList extends Component {
+export default class Genres extends Component {
   constructor() {
     super();
     this.state = {

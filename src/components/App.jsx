@@ -1,11 +1,13 @@
 import React from "react";
 import Filters from "./Filters/Filters";
-import MoviesList from "./Movies/MoviesList";
+import MoviesContainer from "./Movies/MoviesContainer";
 import Header from "./Header/Header";
 import { API_URL, API_KEY_3, fetchApi } from '../api/api';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
+
+export const AppContext = React.createContext();
 
 
 export default class App extends React.Component {
@@ -91,41 +93,50 @@ export default class App extends React.Component {
 
 
     render() {
-        const { filters, page, total_pages, user } = this.state;
+        const { filters, page, total_pages, user, session_id } = this.state;
         return (
-            <div>
-                <Header user={user} updateUser={this.updateUser} updateSessionId={this.updateSessionId}/>
-                <div className="container">
-                    <div className="row mt-4">
-                      <div className="col-4">
-                        <div className="card" style={{ width: "100%" }}>
-                          <div className="card-body">
-                            <h3>Фильтры:</h3>
-                            <div className="d-flex justify-content-center">
-                                <button className="btn btn-light" onClick = {this.onClearFilters}>
-                                    Очистить
-                                </button>
+            <AppContext.Provider 
+                value={{
+                    user,
+                    updateUser: this.updateUser,
+                    session_id,
+                    updateSessionId: this.updateSessionId
+                    }}
+            >
+                <div>
+                    <Header user={user} updateUser={this.updateUser} updateSessionId={this.updateSessionId}/>
+                    <div className="container">
+                        <div className="row mt-4">
+                        <div className="col-4">
+                            <div className="card" style={{ width: "100%" }}>
+                            <div className="card-body">
+                                <h3>Фильтры:</h3>
+                                <div className="d-flex justify-content-center">
+                                    <button className="btn btn-light" onClick = {this.onClearFilters}>
+                                        Очистить
+                                    </button>
+                                </div>
+                                <Filters
+                                    filters = {filters}
+                                    onChangeFilters = {this.onChangeFilters}
+                                    page = {page}
+                                    onChangePage = {this.onChangePage}
+                                    total_pages = {total_pages}
+                                    />
                             </div>
-                            <Filters
+                            </div>
+                        </div>
+                        <div className="col-8">
+                            <MoviesContainer
                                 filters = {filters}
-                                onChangeFilters = {this.onChangeFilters}
                                 page = {page}
                                 onChangePage = {this.onChangePage}
-                                total_pages = {total_pages}
-                                />
-                          </div>
+                                getTotalPages = {this.getTotalPages}/>
                         </div>
-                      </div>
-                      <div className="col-8">
-                        <MoviesList
-                            filters = {filters}
-                            page = {page}
-                            onChangePage = {this.onChangePage}
-                            getTotalPages = {this.getTotalPages}/>
-                      </div>
+                        </div>
                     </div>
-                </div>
-          </div>
+            </div>
+          </AppContext.Provider>
         );
       }
     }

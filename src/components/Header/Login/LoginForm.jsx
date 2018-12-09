@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import { API_URL, API_KEY_3, fetchApi } from "../../../api/api";
-
+import { AppContext } from "../../App"
 
 
 class LoginForm extends Component {
@@ -211,4 +211,21 @@ class LoginForm extends Component {
     }
 }
 
-export default LoginForm;
+const LoginFormContainer = props => {
+    return <AppContext.Consumer>
+        {
+            (context) => (
+                <LoginForm 
+                    updateUser={context.updateUser} 
+                    updateSessionId={context.updateSessionId} 
+                    session_id={this.session_id}
+                />
+            )
+        }
+    </AppContext.Consumer>
+};
+
+LoginFormContainer.displayName = "LoginFormContainer";
+
+export default LoginFormContainer;
+

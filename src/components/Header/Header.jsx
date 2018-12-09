@@ -5,7 +5,7 @@ import User from "./User";
 
 class Header extends Component {
     render(){
-        const { updateUser, user, updateSessionId } = this.props;
+        const { user, updateSessionId } = this.props;
         return(
             <nav className="navbar navbar-dark bg-dark">
                 <div className="container">
@@ -15,8 +15,8 @@ class Header extends Component {
                         </li>
                     </ul>
                     {user?
-                        <User user={user}/>:
-                        <Login updateUser={updateUser} updateSessionId={updateSessionId}/>
+                        <User />:
+                        <Login/>
                     }
                 </div>
             </nav>

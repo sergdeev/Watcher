@@ -194,7 +194,7 @@ class Login extends Component {
         //     })
     // };
     render(){
-        const { updateUser, updateSessionId } = this.props;
+        const { updateSessionId } = this.props;
         return(
             <div>
                 <div className="container">
@@ -206,7 +206,7 @@ class Login extends Component {
                     </button>
                     <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
                         <ModalBody>
-                            <LoginForm updateUser={updateUser} updateSessionId={updateSessionId}/>
+                            <LoginForm />
                         </ModalBody>
                     </Modal>
                 </div>
