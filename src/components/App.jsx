@@ -1,6 +1,6 @@
 import React from "react";
 import Filters from "./Filters/Filters";
-import MoviesContainer from "./Movies/MoviesContainer";
+import MoviesList from "./Movies/MoviesList";
 import Header from "./Header/Header";
 import { API_URL, API_KEY_3, fetchApi } from '../api/api';
 import Cookies from 'universal-cookie';
@@ -127,7 +127,7 @@ export default class App extends React.Component {
                             </div>
                         </div>
                         <div className="col-8">
-                            <MoviesContainer
+                            <MoviesList
                                 filters = {filters}
                                 page = {page}
                                 onChangePage = {this.onChangePage}

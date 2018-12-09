@@ -219,6 +219,7 @@ const LoginFormContainer = props => {
                     updateUser={context.updateUser} 
                     updateSessionId={context.updateSessionId} 
                     session_id={this.session_id}
+                    {...props}
                 />
             )
         }
