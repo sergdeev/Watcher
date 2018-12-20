@@ -76,9 +76,8 @@ export default class App extends React.Component {
                 >
                     <div>
                         <Header user={user} updateUser={this.updateUser} updateSessionId={this.updateSessionId}/>
-                        <Link to="/movie">go to movie</Link>
-                        <Route exact path="/" component={MoviesPage}></Route>
-                        <Route path="/movie/:id" component={MoviePage}></Route>
+                        <Route exact path="/" component={MoviesPage}/>
+                        <Route path="/movie/:id" component={MoviePage}/>
                     </div>
                 </AppContext.Provider>
             </BrowserRouter>   

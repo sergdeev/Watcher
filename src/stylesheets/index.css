@@ -10,3 +10,37 @@ body {
 input.invalid{
     border-color: #dc3545;
 }
+
+
+.movie-container{
+    background-color: rgba(40, 50, 55, 0.7);
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    height: 580px;
+}
+
+
+.movie-page{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 1000px;
+}
+
+
+.movie-image{
+    z-index: 100;
+}
+
+
+
+.card-text{
+    color: #fff;
+}
+
+.card-text:first-child{
+    font-size: 40px;
+}
