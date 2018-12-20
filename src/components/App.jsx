@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie';
 import MoviesPage from "./pages/MoviesPage/MoviesPage"
 import MoviePage from "./pages/MoviePage/MoviePage"
 
+import { BrowserRouter, Route, Link } from "react-router-dom";
 
 const cookies = new Cookies();
 
@@ -63,20 +64,24 @@ export default class App extends React.Component {
     render() {
         const { user, session_id } = this.state;
         return (
-            <AppContext.Provider 
-                value={{
-                    user,
-                    updateUser: this.updateUser,
-                    session_id,
-                    updateSessionId: this.updateSessionId,
-                    onLogOut: this.onLogOut
-                    }}
-            >
-                <div>
-                    <Header user={user} updateUser={this.updateUser} updateSessionId={this.updateSessionId}/>
-                    <MoviesPage />
-                </div>
-          </AppContext.Provider>
+            <BrowserRouter>
+                <AppContext.Provider 
+                    value={{
+                        user,
+                        updateUser: this.updateUser,
+                        session_id,
+                        updateSessionId: this.updateSessionId,
+                        onLogOut: this.onLogOut
+                        }}
+                >
+                    <div>
+                        <Header user={user} updateUser={this.updateUser} updateSessionId={this.updateSessionId}/>
+                        <Link to="/movie">go to movie</Link>
+                        <Route exact path="/" component={MoviesPage}></Route>
+                        <Route path="/movie/:id" component={MoviePage}></Route>
+                    </div>
+                </AppContext.Provider>
+            </BrowserRouter>   
         );
       }
     }

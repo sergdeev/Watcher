@@ -24,17 +24,17 @@ export default class Genres extends Component {
   }
 
 
-  onChange = event =>{
-      console.log(event.target.checked);
-      this.props.onChangeFilters({
-          target: {
+    onChange = event =>{
+        console.log(event.target.checked);
+        this.props.onChangeFilters({
+            target: {
             name: "with_genres",
             value: event.target.checked
-              ? [...this.props.with_genres, event.target.value]
-              : this.props.with_genres.filter(genre => genre !== event.target.value)
-          }
-    });
-  }
+                ? [...this.props.with_genres, event.target.value]
+                : this.props.with_genres.filter(genre => genre !== event.target.value)
+            } 
+        });
+    }
 
 
   resetGenres = event => {
