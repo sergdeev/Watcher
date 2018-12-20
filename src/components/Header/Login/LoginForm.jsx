@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import { API_URL, API_KEY_3, fetchApi } from "../../../api/api";
-import { AppContext } from "../../App"
 
+
+import AppContextHOC from "../../HOC/AppContextHOC"
 
 class LoginForm extends Component {
     constructor(){
@@ -146,7 +147,7 @@ class LoginForm extends Component {
             <div className="form-login-container">
                 <form className="form-login">
                     <h1 className="h3 mb-3 font-weight-normal text-center">
-                      Авторизация
+                      Авторизация apitarakan1972
                     </h1>
                     <div className="form-group">
                         <label htmlFor="username">Пользователь</label>
@@ -211,22 +212,6 @@ class LoginForm extends Component {
     }
 }
 
-const LoginFormContainer = props => {
-    return <AppContext.Consumer>
-        {
-            (context) => (
-                <LoginForm 
-                    updateUser={context.updateUser} 
-                    updateSessionId={context.updateSessionId} 
-                    session_id={this.session_id}
-                    {...props}
-                />
-            )
-        }
-    </AppContext.Consumer>
-};
 
-LoginFormContainer.displayName = "LoginFormContainer";
-
-export default LoginFormContainer;
+export default AppContextHOC(LoginForm);
 

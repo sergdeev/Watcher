@@ -26,3 +26,8 @@ export const API_KEY_4 =
 
       })
   };
+
+
+export default class CallApi {
+    get
+};
