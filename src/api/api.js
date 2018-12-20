@@ -1,3 +1,5 @@
+import queryString from "query-string";
+
 export const API_URL = "https://api.themoviedb.org/3";
 
 export const API_KEY_3 = "82e907ae230e3979723f46972af5c31d";
@@ -29,5 +31,39 @@ export const API_KEY_4 =
 
 
 export default class CallApi {
-    get
+    static get(url, options = {}){
+        const { params = {} } = options;
+        const queryStringParams = {
+            api_key: API_KEY_3,
+            ...params
+        };
+        return fetchApi(
+            `${API_URL}${url}?${queryString.stringify(queryStringParams)}`,
+            {
+                mode: "cors",
+                headers: {
+                    "Content-type": "application/json"
+                }
+            });
+        };
+        
+    static post(url, options = {}) {
+        const { params = {}, body = {} } = options;
+        const queryStringParams = {
+            api_key: API_KEY_3,
+            ...params
+        };
+        return fetchApi(
+            `${API_URL}${url}?${queryString.stringify(queryStringParams)}`,
+            {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+        }
+
 };
+

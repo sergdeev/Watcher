@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { API_URL, API_KEY_3, fetchApi } from "../../../api/api";
+import CallApi from "../../../api/api";
 
 
 import AppContextHOC from "../../HOC/AppContextHOC"
@@ -61,67 +61,59 @@ class LoginForm extends Component {
 
 
     onSubmit = () => {
-        const linkRequestToken = `${API_URL}/authentication/token/new?api_key=${API_KEY_3}`;
-        const linkCreateSessionWithLogin = `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`;
-        const linkCreateSession = `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`;
+        //const linkRequestToken = `${API_URL}/authentication/token/new?api_key=${API_KEY_3}`;
+        //const linkCreateSessionWithLogin = `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`;
+        //const linkCreateSession = `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`;
 
         this.setState({
             submitting: true
         });
 
-        fetchApi(linkRequestToken)
-        .then(data => {
-            //console.log("data",data);
-            return fetchApi(linkCreateSessionWithLogin,{
-                        method: "POST",
-                        mode: "cors",
-                        headers: {
-                            "Content-type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            username: this.state.username,
-                            password: this.state.password,
-                            request_token: data.request_token
-                        })
-                    })
+        CallApi.get("/authentication/token/new")
+            .then(data => {
+                return CallApi.post("/authentication/token/validate_with_login", {
+                    body: {
+                        username: this.state.username,
+                        password: this.state.password,
+                        request_token: data.request_token
+                    }
+                });
             })
             .then(data => {
-                //console.log("succes", data);
-                return fetchApi(linkCreateSession,{
-                            method: "POST",
-                            mode: "cors",
-                            headers: {
-                                "Content-type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                request_token: data.request_token
-                            })
-                        })
+                return CallApi.post("/authentication/session/new", {
+                    body: {
+                        request_token: data.request_token
+                    }
+                });
             })
             .then(data => {
                 this.props.updateSessionId(data.session_id);
-                return fetchApi(`${API_URL}/account?api_key=${API_KEY_3}&session_id=${data.session_id}`)
-                //console.log("session", data.session_id);
-            })
-            .then(user => {
-                console.log("user", user);
-                this.setState({
-                    submitting: false
-                },
-                () => {
-                    this.props.updateUser(user);
+                return CallApi.get("/account", {
+                    params: {
+                        session_id: data.session_id
+                    }
                 });
             })
-            .catch(error =>{
+            .then(user => {
+                this.setState(
+                    {
+                        submitting: false
+                    },
+                    () => {
+                        this.props.updateUser(user);
+                    }
+                );
+            })
+            .catch(error => {
                 console.log("error", error);
                 this.setState({
                     submitting: false,
                     errors: {
                         base: error.status_message
                     }
-                })
+                });
             });
-        }
+    };          
 
 
     onLogin = event => {
