@@ -35,6 +35,7 @@ export default class CallApi {
         const { params = {} } = options;
         const queryStringParams = {
             api_key: API_KEY_3,
+            language: "ru-RU",
             ...params
         };
         return fetchApi(
@@ -51,6 +52,7 @@ export default class CallApi {
         const { params = {}, body = {} } = options;
         const queryStringParams = {
             api_key: API_KEY_3,
+            language: "ru-RU",
             ...params
         };
         return fetchApi(

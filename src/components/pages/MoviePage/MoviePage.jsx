@@ -1,5 +1,13 @@
 import React from "react";
 import CallApi from '../../../api/api';
+import MovieInfo from "../../Movies/Movie/MovieInfo";
+import MovieTab from "../../Movies/Movie/MovieTab";
+import { Route, Switch } from "react-router-dom";
+import MovieDetail from "../../Movies/Movie/MovieDetail";
+import MovieVideos from "../../Movies/Movie/MovieVideos";
+import MovieCredits from "../../Movies/Movie/MovieCredits";
+
+
 
 export default class MoviePage extends React.Component {
     constructor(){
@@ -11,7 +19,11 @@ export default class MoviePage extends React.Component {
 
     componentDidMount () {
         const movie_id = this.props.match.params.id;
-        CallApi.get(`/movie/${movie_id}`)
+        CallApi.get(`/movie/${movie_id}`, {
+            params: {
+                language: "ru-RU"
+            }
+        })
         .then(data => {
             this.setState({
                 movie: data
@@ -20,28 +32,18 @@ export default class MoviePage extends React.Component {
     }
 
     render(){
-        const { backdrop_path, poster_path, original_title, overview } = this.state.movie;
+        const { movie } = this.state;
         return (
-            <div style={{
-                background: `url(https://image.tmdb.org/t/p/w600_and_h900_bestv2${backdrop_path}) no-repeat 50%/cover`
-                }}
-                className="movie-info">
-                <div className="movie-container">
-                    <div className="movie-page">
-                        <div className="col-4 movie-image">
-                            <img
-                                className="card-img-top"
-                                src={`https://image.tmdb.org/t/p/w500${poster_path}`}
-                                style={{"width": "300px"}}
-                                alt=""
-                                />
-                        </div>
-                        <div className="col-8 movie-text">
-                            <div className="card-text">{original_title}</div>
-                            <div className="card-text">{overview}</div>
-                        </div>
-                    </div>
-                </div>
+            <div>
+                <MovieInfo movie={movie}/>
+                <MovieTab movie={movie}/>  
+                <Switch>
+                    <Route exact path="/movie/:id/detail" render={propsRouter => (
+                        <MovieDetail {...propsRouter} movie={movie}/>
+                    )}/>
+                    <Route path="/movie/:id/videos" component={MovieVideos}/>
+                    <Route path="/movie/:id/credits" component={MovieCredits}/>
+                </Switch>
             </div>
         );
     }

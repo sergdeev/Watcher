@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie';
 import MoviesPage from "./pages/MoviesPage/MoviesPage"
 import MoviePage from "./pages/MoviePage/MoviePage"
 
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 
 const cookies = new Cookies();
 
