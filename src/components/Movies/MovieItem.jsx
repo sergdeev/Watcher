@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Favorites from "./Favorites";
 
 
 export default class MovieItem extends React.Component {
@@ -15,7 +16,8 @@ export default class MovieItem extends React.Component {
         />
         <div className="card-body">
           <Link className="card-title" to={`/movie/${item.id}`}>{item.title}</Link>
-          <div className="card-text">Рейтинг: {item.vote_average}</div>
+          <div>Рейтинг: {item.vote_average}</div>
+          <Favorites item={item} />
         </div>
       </div>
     );

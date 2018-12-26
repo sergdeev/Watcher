@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import MovieItem from "./MovieItem";
-import MoviesHOC from "./MoviesHOC";
+import MoviesHOC from "../HOC/MoviesHOC";
 
 const MoviesList = ({movies}) => {
   return (

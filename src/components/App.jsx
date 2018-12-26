@@ -1,9 +1,16 @@
 import React from "react";
 import Header from "./Header/Header";
-import { API_URL, API_KEY_3, fetchApi } from '../api/api';
+import CallApi, { API_URL, API_KEY_3, fetchApi } from '../api/api';
 import Cookies from 'universal-cookie';
 import MoviesPage from "./pages/MoviesPage/MoviesPage"
 import MoviePage from "./pages/MoviePage/MoviePage"
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+
+
+
 
 import { BrowserRouter, Route } from "react-router-dom";
 
@@ -11,13 +18,18 @@ const cookies = new Cookies();
 
 export const AppContext = React.createContext();
 
+library.add(fas, far);
+
 
 export default class App extends React.Component {
     constructor(){
         super();
         this.state = {
             user: null,
-            session_id: ""
+            session_id: "",
+            showLoginModal: false,
+            favoriteMovies: [],
+            watchList: []
         }
     };
 
@@ -54,15 +66,59 @@ export default class App extends React.Component {
             .then(user => {
                 this.updateUser(user);
                 this.updateSessionId(session_id);
+                this.getFavoriteMovies();
             })
         }
 
     }
 
+    getFavoriteMovies = () => {
+        const { session_id, user } = this.state;
+        CallApi.get(`/account/${user.id}/favorite/movies`, {
+            params: {
+                session_id: session_id,
+                language: "ru-RU"
+            }
+        })
+        .then(data => {
+            const moviesID = [];
+            data.results.map(movie => {
+              moviesID.push(movie.id);
+            });
+            this.setState({
+              favoriteMovies: [...moviesID]
+            });
+            return CallApi.get(`/account/${user.id}/watchlist/movies`, {
+                params: {
+                    session_id: session_id,
+                    language: "ru-RU"
+                }
+            })
+            .then(data => {
+                const moviesID = [];
+                data.results.map(movie => {
+                  moviesID.push(movie.id);
+                });
+                this.setState({
+                    watchlist: [...moviesID]
+                });
+            })
+        })
+    }
+
+
+    showToggleModal = () => {
+        this.setState(prevState => ({
+            ...prevState,
+            showLoginModal: !prevState.showLoginModal
+          }));
+    }
+
+
 
 
     render() {
-        const { user, session_id } = this.state;
+        const { user, session_id, favoriteMovies, watchList } = this.state;
         return (
             <BrowserRouter>
                 <AppContext.Provider 
@@ -71,7 +127,11 @@ export default class App extends React.Component {
                         updateUser: this.updateUser,
                         session_id,
                         updateSessionId: this.updateSessionId,
-                        onLogOut: this.onLogOut
+                        onLogOut: this.onLogOut,
+                        showToggleModal: this.showToggleModal,
+                        getFavoriteMovies: this.getFavoriteMovies,
+                        favoriteMovies,
+                        watchList
                         }}
                 >
                     <div>
