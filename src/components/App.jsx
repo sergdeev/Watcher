@@ -4,7 +4,7 @@ import CallApi, { API_URL, API_KEY_3, fetchApi } from '../api/api';
 import Cookies from 'universal-cookie';
 import MoviesPage from "./pages/MoviesPage/MoviesPage"
 import MoviePage from "./pages/MoviePage/MoviePage"
-
+import LoginForm from "./Header/Login/LoginForm"
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
@@ -81,12 +81,12 @@ export default class App extends React.Component {
             }
         })
         .then(data => {
-            const moviesID = [];
+            const favMoviesID = [];
             data.results.map(movie => {
-              moviesID.push(movie.id);
+              favMoviesID.push(movie.id);
             });
             this.setState({
-              favoriteMovies: [...moviesID]
+              favoriteMovies: [...favMoviesID]
             });
             return CallApi.get(`/account/${user.id}/watchlist/movies`, {
                 params: {
@@ -95,12 +95,12 @@ export default class App extends React.Component {
                 }
             })
             .then(data => {
-                const moviesID = [];
+                const watchMoviesID = [];
                 data.results.map(movie => {
-                  moviesID.push(movie.id);
+                    watchMoviesID.push(movie.id);
                 });
                 this.setState({
-                    watchlist: [...moviesID]
+                    watchList: [...watchMoviesID]
                 });
             })
         })

@@ -44,3 +44,7 @@ input.invalid{
 .card-text:first-child{
     font-size: 40px;
 }
+
+.icon{
+    margin-right: 5px;
+}

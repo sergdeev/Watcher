@@ -3,10 +3,11 @@ import UIIcon from '../UIComponents/UIIcon'
 import AppContextHOC from "../HOC/AppContextHOC";
 import AddMovieToListHOC from "../HOC/AddMovieToListHOC"
 
-const Favorites = ({ isAdded, addFavorite }) => {
+
+const WatchList = ({ isAdded, addFavorite }) => {
         return(
             <UIIcon
-                iconName={"heart"}
+                iconName={"bookmark"}
                 onClick={addFavorite}
                 isAdded={isAdded}
                 />
@@ -15,4 +16,4 @@ const Favorites = ({ isAdded, addFavorite }) => {
 
 
 
-export default AppContextHOC(AddMovieToListHOC(Favorites, "favoriteMovies", "favorite"));
+export default AppContextHOC(AddMovieToListHOC(WatchList, "watchList", "watchlist"));
