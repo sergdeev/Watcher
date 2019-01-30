@@ -49,6 +49,7 @@ class UserMenu extends Component {
                     onClick={this.toggleDropdown}
                     data-toggle="dropdown">
                     <img 
+                        alt=""
                         className="rounded-circle" 
                         src = {`https://secure.gravatar.com/avatar/${user.avatar.gravatar.hash}.jpg?s=44`}
                         onClick={this.toggleDropdown}

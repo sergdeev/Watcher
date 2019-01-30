@@ -194,7 +194,6 @@ class Login extends Component {
         //     })
     // };
     render(){
-        const { updateSessionId } = this.props;
         return(
             <div>
                 <div className="container">

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 class Header extends Component {
     render(){
-        const { user, updateSessionId } = this.props;
+        const { user } = this.props;
         return(
             <nav className="navbar navbar-dark bg-dark">
                 <div className="container">

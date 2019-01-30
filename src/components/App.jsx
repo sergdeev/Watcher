@@ -1,16 +1,18 @@
 import React from "react";
 import Header from "./Header/Header";
 import CallApi, { API_URL, API_KEY_3, fetchApi } from '../api/api';
+
 import Cookies from 'universal-cookie';
+
 import MoviesPage from "./pages/MoviesPage/MoviesPage"
 import MoviePage from "./pages/MoviePage/MoviePage"
-import LoginForm from "./Header/Login/LoginForm"
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 
-
-
+import LoginForm from "./Header/Login/LoginForm"
+import { Modal, ModalBody } from 'reactstrap';
 
 import { BrowserRouter, Route } from "react-router-dom";
 
@@ -118,7 +120,7 @@ export default class App extends React.Component {
 
 
     render() {
-        const { user, session_id, favoriteMovies, watchList } = this.state;
+        const { user, session_id, favoriteMovies, watchList, showLoginModal } = this.state;
         return (
             <BrowserRouter>
                 <AppContext.Provider 
@@ -135,6 +137,11 @@ export default class App extends React.Component {
                         }}
                 >
                     <div>
+                        <Modal isOpen={showLoginModal} toggle={this.showToggleModal}>
+                            <ModalBody>
+                                <LoginForm />
+                            </ModalBody>
+                        </Modal>
                         <Header user={user} updateUser={this.updateUser} updateSessionId={this.updateSessionId}/>
                         <Route exact path="/" component={MoviesPage}/>
                         <Route path="/movie/:id" component={MoviePage}/>

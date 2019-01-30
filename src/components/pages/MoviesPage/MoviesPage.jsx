@@ -45,7 +45,7 @@ export default class MoviesPage extends React.Component {
     onClearFilters = event => {
         this.setState({
             filters: {
-                sort_by: 'vote_average.desc',
+                sort_by: 'popularity.desc',
                 primary_release_year: '2018',
                 with_genres: []
             },

@@ -1,4 +1,6 @@
 import React from "react";
+import Favorites from "../Favorites";
+import WatchList from "../WatchList"
 
 
 export default class MovieInfo extends React.Component {
@@ -6,6 +8,7 @@ export default class MovieInfo extends React.Component {
 
     render(){
         const { backdrop_path, poster_path, title, overview } = this.props.movie;
+        const item = this.props.movie;
         return (
             <div style={{
                 background: `url(https://image.tmdb.org/t/p/w600_and_h900_bestv2${backdrop_path}) no-repeat 50%/cover`
@@ -24,6 +27,8 @@ export default class MovieInfo extends React.Component {
                         <div className="col-8 movie-text">
                             <div className="card-text">{title}</div>
                             <div className="card-text">{overview}</div>
+                            <Favorites item={item} />
+                            <WatchList item={item}/>
                         </div>
                     </div>
                 </div>

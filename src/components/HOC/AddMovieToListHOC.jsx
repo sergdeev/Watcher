@@ -10,22 +10,26 @@ export default (Component, type, name) => class AddMovieToListHOC extends React.
     }
 
     addFavorite = () => {
-        const { user, item, session_id } = this.props;
-        this.setState(prevState => ({
-            ...prevState,
-            isAdded: !prevState.isAdded
-        }), () =>
-            CallApi.post(`/account/${user.id}/${[name]}`, {
-                params: {
-                    session_id: session_id
-                },
-                body: {
-                    media_type: "movie",
-                    media_id: item.id,
-                    [name]: this.state.isAdded
-                }
-            })
-        );
+        const { user, item, session_id, showToggleModal } = this.props;
+        if(!session_id){
+            showToggleModal();
+        } else{
+            this.setState(prevState => ({
+                ...prevState,
+                isAdded: !prevState.isAdded
+            }), () =>
+                CallApi.post(`/account/${user.id}/${[name]}`, {
+                    params: {
+                        session_id: session_id
+                    },
+                    body: {
+                        media_type: "movie",
+                        media_id: item.id,
+                        [name]: this.state.isAdded
+                    }
+                })
+            );
+        }
     };
 
         render(){
